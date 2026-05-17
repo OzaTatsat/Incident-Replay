@@ -16,7 +16,7 @@ const LANES = [
 ]
 const LANE_LABELS = ['PROCESS','NETWORK','REGISTRY','FILE','ACCESS','DNS','INJECT','DLL']
 const LANE_HEIGHT = 44
-const MARGIN      = { top: 20, right: 28, bottom: 36, left: 76 }
+const MARGIN      = { top: 32, right: 28, bottom: 36, left: 76 }
 
 export default function TimelineCanvas({ width, height }) {
   const svgRef   = useRef(null)
@@ -55,7 +55,7 @@ export default function TimelineCanvas({ width, height }) {
       .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
 
     // Phase bands
-    phases.forEach(ph => {
+    phases.forEach((ph, i) => {
       if (!ph.start_ts || !ph.end_ts) return
       const x1 = xScale(ph.start_ts)
       const x2 = xScale(ph.end_ts)
@@ -68,17 +68,22 @@ export default function TimelineCanvas({ width, height }) {
         .attr('opacity', 0.06)
 
       // Phase label at top
-      if (x2 - x1 > 40) {
+      const labelText = ph.display_name?.toUpperCase() || ph.phase_name.toUpperCase()
+      // Estimate text width roughly: ~5.5px per character at 9px font-size + padding
+      const estWidth = labelText.length * 6
+      if (x2 - x1 > estWidth) {
+        // Stagger the labels to prevent overlapping if regions are dense, rotating through 3 levels
+        const yOffset = -6 - (i % 3) * 10
         g.append('text')
           .attr('x', x1 + (x2 - x1) / 2)
-          .attr('y', -6)
+          .attr('y', yOffset)
           .attr('text-anchor', 'middle')
           .attr('fill', col)
           .attr('font-size', 9)
           .attr('font-weight', 700)
           .attr('letter-spacing', '0.08em')
           .attr('font-family', 'Inter, sans-serif')
-          .text(ph.display_name?.toUpperCase() || ph.phase_name.toUpperCase())
+          .text(labelText)
       }
     })
 
