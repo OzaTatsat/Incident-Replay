@@ -30,8 +30,9 @@ export default function PlaybackControls() {
       {/* Reset */}
       <button
         onClick={() => { setPlayhead(0); setIsPlaying(false) }}
-        className="p-1.5 rounded hover:bg-white/5 transition-colors"
+        aria-label="Reset playback"
         title="Reset"
+        className="p-1.5 rounded hover:bg-white/5 transition-colors focus-visible:ring-2"
       >
         <SkipBack size={15} style={{ color: 'var(--text-secondary)' }} />
       </button>
@@ -42,8 +43,10 @@ export default function PlaybackControls() {
           if (playhead >= 1) setPlayhead(0)
           setIsPlaying(!isPlaying)
         }}
+        aria-label={isPlaying ? "Pause playback" : "Play timeline"}
+        title={isPlaying ? "Pause" : "Play"}
         disabled={!events.length}
-        className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+        className="w-9 h-9 rounded-full flex items-center justify-center transition-all focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-[#0d1117]"
         style={{
           background: events.length ? 'var(--accent)' : 'var(--border-subtle)',
           cursor: events.length ? 'pointer' : 'not-allowed',
@@ -60,8 +63,9 @@ export default function PlaybackControls() {
         type="range" min={0} max={1000} step={1}
         value={Math.round(playhead * 1000)}
         onChange={e => { setPlayhead(e.target.value / 1000); setIsPlaying(false) }}
+        aria-label="Timeline scrubber"
         disabled={!events.length}
-        className="flex-1 h-1 rounded accent-sky-400"
+        className="flex-1 h-1 rounded accent-sky-400 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-[#0d1117]"
         style={{ accentColor: 'var(--accent)', cursor: events.length ? 'pointer' : 'not-allowed' }}
       />
 
@@ -80,12 +84,14 @@ export default function PlaybackControls() {
       {/* Speed */}
       <div className="flex items-center gap-1">
         <Gauge size={12} style={{ color: 'var(--text-muted)' }} />
-        <div className="flex gap-0.5">
+        <div className="flex gap-0.5" role="group" aria-label="Playback speed">
           {SPEEDS.map(s => (
             <button
               key={s}
               onClick={() => setPlaybackSpeed(s)}
-              className="px-2 py-0.5 rounded text-xs mono transition-colors"
+              aria-label={`Speed ${s}x`}
+              aria-pressed={playbackSpeed === s}
+              className="px-2 py-0.5 rounded text-xs mono transition-colors focus-visible:ring-2 focus-visible:ring-inset"
               style={{
                 background: playbackSpeed === s ? 'var(--accent)' : 'transparent',
                 color:      playbackSpeed === s ? '#000' : 'var(--text-muted)',

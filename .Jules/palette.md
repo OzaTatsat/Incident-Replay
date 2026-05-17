@@ -1,0 +1,3 @@
+## 2024-05-17 - Icon-only buttons and Playback Controls Accessibility
+**Learning:** Icon-only buttons like those for playback controls and event closing lack context for screen readers. Using `aria-label` provides this context, and applying `focus-visible` styling ensures users navigating by keyboard have clear indicators. In a group of buttons functioning like radio buttons (like the playback speed selectors), adding `role="group"`, an overall `aria-label`, and `aria-pressed` on individual buttons greatly improves keyboard and screen-reader usability.
+**Action:** Always add `aria-label` to icon-only interactive elements and ensure focus states are clearly visible, particularly in complex UI like custom playback controllers.
