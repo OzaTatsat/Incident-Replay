@@ -77,7 +77,7 @@ export default function TimelineCanvas({ width, height }) {
           .attr('font-size', 9)
           .attr('font-weight', 700)
           .attr('letter-spacing', '0.08em')
-          .attr('font-family', 'Rajdhani, sans-serif')
+          .attr('font-family', 'Inter, sans-serif')
           .text(ph.display_name?.toUpperCase() || ph.phase_name.toUpperCase())
       }
     })
@@ -88,13 +88,15 @@ export default function TimelineCanvas({ width, height }) {
       g.append('line')
         .attr('x1', 0).attr('y1', y + LANE_HEIGHT / 2)
         .attr('x2', innerW).attr('y2', y + LANE_HEIGHT / 2)
-        .attr('stroke', '#1a2332').attr('stroke-width', 1)
+        .attr('stroke', '#e5e3da')
+        .attr('stroke-dasharray', '2,2')
+        .attr('stroke-width', 1)
 
       svg.append('text')
         .attr('x', MARGIN.left - 8)
         .attr('y', MARGIN.top + y + 5)
         .attr('text-anchor', 'end')
-        .attr('fill', '#4a5568')
+        .attr('fill', '#8c8984')
         .attr('font-size', 9)
         .attr('font-weight', 600)
         .attr('letter-spacing', '0.12em')
@@ -114,10 +116,10 @@ export default function TimelineCanvas({ width, height }) {
       .attr('transform', `translate(0,${LANE_LABELS.length * LANE_HEIGHT + 8})`)
       .call(timeAxis)
       .call(ax => {
-        ax.select('.domain').attr('stroke', '#1a2332')
-        ax.selectAll('.tick line').attr('stroke', '#1a2332')
+        ax.select('.domain').attr('stroke', '#e5e3da')
+        ax.selectAll('.tick line').attr('stroke', '#e5e3da')
         ax.selectAll('.tick text')
-          .attr('fill', '#4a5568')
+          .attr('fill', '#8c8984')
           .attr('font-size', 9)
           .attr('font-family', 'JetBrains Mono, monospace')
       })
@@ -147,7 +149,7 @@ export default function TimelineCanvas({ width, height }) {
       .attr('opacity', 0.85)
       .attr('stroke', d => {
         const score = d.suspicion_score || 0
-        return score > 70 ? '#fff' : 'none'
+        return score > 70 ? '#2c2b29' : 'none'
       })
       .attr('stroke-width', 1)
       .on('click', (event, d) => { event.stopPropagation(); setSelectedEvent(d) })
@@ -200,10 +202,10 @@ export default function TimelineCanvas({ width, height }) {
       .attr('class', 'playhead-line')
       .attr('x1', x).attr('y1', MARGIN.top - 14)
       .attr('x2', x).attr('y2', realH - MARGIN.bottom + MARGIN.top)
-      .attr('stroke', '#38bdf8')
+      .attr('stroke', '#4a729e')
       .attr('stroke-width', 1.5)
       .attr('stroke-dasharray', '3,3')
-      .attr('opacity', 0.7)
+      .attr('opacity', 0.8)
   }, [playhead, events.length, width])
 
   // Click on SVG to scrub

@@ -1,20 +1,20 @@
 import { create } from 'zustand'
 
 const PHASE_COLORS = {
-  reconnaissance:       '#4a9eff',
-  initial_access:       '#f59e0b',
-  execution:            '#f97316',
-  persistence:          '#a855f7',
-  privilege_escalation: '#ec4899',
-  defense_evasion:      '#14b8a6',
-  credential_access:    '#eab308',
-  discovery:            '#60a5fa',
-  lateral_movement:     '#06b6d4',
-  collection:           '#6366f1',
-  command_and_control:  '#f43f5e',
-  exfiltration:         '#ef4444',
-  impact:               '#dc2626',
-  unknown:              '#475569',
+  reconnaissance:       '#7fa1c3',
+  initial_access:       '#d4a373',
+  execution:            '#e29578',
+  persistence:          '#a594f9',
+  privilege_escalation: '#e5989b',
+  defense_evasion:      '#83c5be',
+  credential_access:    '#e9c46a',
+  discovery:            '#90e0ef',
+  lateral_movement:     '#48cae4',
+  collection:           '#bde0fe',
+  command_and_control:  '#ffb4a2',
+  exfiltration:         '#e56b6f',
+  impact:               '#b56576',
+  unknown:              '#9ca3af',
 }
 
 export const useStore = create((set, get) => ({
