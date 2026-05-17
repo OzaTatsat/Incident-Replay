@@ -16,7 +16,7 @@ const LANES = [
 ]
 const LANE_LABELS = ['PROCESS','NETWORK','REGISTRY','FILE','ACCESS','DNS','INJECT','DLL']
 const LANE_HEIGHT = 44
-const MARGIN      = { top: 20, right: 28, bottom: 36, left: 76 }
+const MARGIN      = { top: 40, right: 28, bottom: 36, left: 76 }
 
 export default function TimelineCanvas({ width, height }) {
   const svgRef   = useRef(null)
@@ -54,12 +54,15 @@ export default function TimelineCanvas({ width, height }) {
     const g = svg.append('g')
       .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
 
-    // Phase bands
+    // Phase bands and label collision detection
+    const placedLabels = []
+
     phases.forEach(ph => {
       if (!ph.start_ts || !ph.end_ts) return
       const x1 = xScale(ph.start_ts)
       const x2 = xScale(ph.end_ts)
       const col = PHASE_COLORS[ph.phase_name] || '#475569'
+
       g.append('rect')
         .attr('x', x1).attr('y', -MARGIN.top)
         .attr('width', Math.max(x2 - x1, 2))
@@ -69,16 +72,33 @@ export default function TimelineCanvas({ width, height }) {
 
       // Phase label at top
       if (x2 - x1 > 40) {
+        const text = ph.display_name?.toUpperCase() || ph.phase_name.toUpperCase()
+        const textW = text.length * 6 // rough estimate of text width
+        const cx = x1 + (x2 - x1) / 2
+
+        // Find a vertical row that doesn't overlap
+        let row = 0
+        while (true) {
+          const overlapping = placedLabels.find(l =>
+            l.row === row &&
+            Math.abs(l.cx - cx) < (l.w / 2 + textW / 2 + 10)
+          )
+          if (!overlapping) break
+          row++
+        }
+
+        placedLabels.push({ cx, w: textW, row })
+
         g.append('text')
-          .attr('x', x1 + (x2 - x1) / 2)
-          .attr('y', -6)
+          .attr('x', cx)
+          .attr('y', -6 - (row * 12))
           .attr('text-anchor', 'middle')
           .attr('fill', col)
           .attr('font-size', 9)
           .attr('font-weight', 700)
           .attr('letter-spacing', '0.08em')
           .attr('font-family', 'Inter, sans-serif')
-          .text(ph.display_name?.toUpperCase() || ph.phase_name.toUpperCase())
+          .text(text)
       }
     })
 
@@ -200,7 +220,7 @@ export default function TimelineCanvas({ width, height }) {
     const x = MARGIN.left + xScale(tMin + playhead * (tMax - tMin))
     svg.append('line')
       .attr('class', 'playhead-line')
-      .attr('x1', x).attr('y1', MARGIN.top - 14)
+      .attr('x1', x).attr('y1', MARGIN.top - 34)
       .attr('x2', x).attr('y2', realH - MARGIN.bottom + MARGIN.top)
       .attr('stroke', '#4a729e')
       .attr('stroke-width', 1.5)

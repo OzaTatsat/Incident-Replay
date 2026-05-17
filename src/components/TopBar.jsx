@@ -19,16 +19,16 @@ export default function TopBar() {
                   background: 'var(--bg-surface)' }}>
 
       {/* Brand */}
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2.5 min-w-0">
         <Shield size={18} style={{ color: 'var(--accent)' }} />
-        <span className="font-bold tracking-[.2em] text-sm uppercase"
+        <span className="font-bold tracking-[.2em] text-sm uppercase shrink-0"
               style={{ color: 'var(--text-primary)' }}>
           INCIDENT REPLAY
         </span>
         {investigation && (
           <>
-            <span style={{ color: 'var(--border-strong)' }}>/</span>
-            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <span className="shrink-0" style={{ color: 'var(--border-strong)' }}>/</span>
+            <span className="text-sm truncate max-w-xs" style={{ color: 'var(--text-secondary)' }}>
               {investigation.name}
             </span>
           </>
