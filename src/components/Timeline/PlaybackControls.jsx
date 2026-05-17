@@ -24,7 +24,7 @@ export default function PlaybackControls() {
   ).length
 
   return (
-    <div className="flex items-center gap-4 px-5 py-3 rounded-xl"
+    <div className="flex items-center gap-4 px-5 py-3 rounded-xl flex-wrap"
          style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
 
       {/* Reset */}

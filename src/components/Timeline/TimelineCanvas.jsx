@@ -16,7 +16,7 @@ const LANES = [
 ]
 const LANE_LABELS = ['PROCESS','NETWORK','REGISTRY','FILE','ACCESS','DNS','INJECT','DLL']
 const LANE_HEIGHT = 44
-const MARGIN      = { top: 32, right: 28, bottom: 36, left: 76 }
+const MARGIN      = { top: 56, right: 28, bottom: 36, left: 76 }
 
 export default function TimelineCanvas({ width, height }) {
   const svgRef   = useRef(null)
@@ -55,11 +55,15 @@ export default function TimelineCanvas({ width, height }) {
       .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
 
     // Phase bands
-    phases.forEach((ph, i) => {
+    const labelsToDraw = []
+
+    phases.forEach((ph) => {
       if (!ph.start_ts || !ph.end_ts) return
       const x1 = xScale(ph.start_ts)
       const x2 = xScale(ph.end_ts)
       const col = PHASE_COLORS[ph.phase_name] || '#475569'
+
+      // Draw background band
       g.append('rect')
         .attr('x', x1).attr('y', -MARGIN.top)
         .attr('width', Math.max(x2 - x1, 2))
@@ -67,24 +71,49 @@ export default function TimelineCanvas({ width, height }) {
         .attr('fill', col)
         .attr('opacity', 0.06)
 
-      // Phase label at top
+      // Prepare label data
       const labelText = ph.display_name?.toUpperCase() || ph.phase_name.toUpperCase()
-      // Estimate text width roughly: ~5.5px per character at 9px font-size + padding
-      const estWidth = labelText.length * 6
-      if (x2 - x1 > estWidth) {
-        // Stagger the labels to prevent overlapping if regions are dense, rotating through 3 levels
-        const yOffset = -6 - (i % 3) * 10
-        g.append('text')
-          .attr('x', x1 + (x2 - x1) / 2)
-          .attr('y', yOffset)
-          .attr('text-anchor', 'middle')
-          .attr('fill', col)
-          .attr('font-size', 9)
-          .attr('font-weight', 700)
-          .attr('letter-spacing', '0.08em')
-          .attr('font-family', 'Inter, sans-serif')
-          .text(labelText)
+      const estWidth = labelText.length * 5.5 + 4 // refined estimation
+      if (x2 - x1 > 20) { // only consider if band is wide enough to be visible
+        labelsToDraw.push({
+          text: labelText,
+          cx: x1 + (x2 - x1) / 2,
+          halfW: estWidth / 2,
+          col: col
+        })
       }
+    })
+
+    // Sort labels by X position to resolve horizontal overlaps
+    labelsToDraw.sort((a, b) => a.cx - b.cx)
+
+    // Greedy placement to prevent overlap
+    const LEVELS = 4
+    const lastXAtLevel = new Array(LEVELS).fill(-Infinity)
+
+    labelsToDraw.forEach(lbl => {
+      let placed = false
+      for (let lvl = 0; lvl < LEVELS; lvl++) {
+        // If current label's left edge is beyond the right edge of the last label on this level
+        if (lbl.cx - lbl.halfW > lastXAtLevel[lvl]) {
+          lastXAtLevel[lvl] = lbl.cx + lbl.halfW + 4 // +4px padding
+
+          g.append('text')
+            .attr('x', lbl.cx)
+            .attr('y', -8 - (lvl * 12)) // Stagger upwards
+            .attr('text-anchor', 'middle')
+            .attr('fill', lbl.col)
+            .attr('font-size', 9)
+            .attr('font-weight', 700)
+            .attr('letter-spacing', '0.08em')
+            .attr('font-family', 'Inter, sans-serif')
+            .text(lbl.text)
+
+          placed = true
+          break
+        }
+      }
+      // If we couldn't fit it in any level, we skip rendering it (or could force it, but skipping prevents clutter)
     })
 
     // Swimlane rules

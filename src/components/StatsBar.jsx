@@ -20,7 +20,7 @@ export default function StatsBar() {
   )].filter(p => p !== 'unknown').length
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 flex-wrap">
       {[
         {
           icon: Activity,

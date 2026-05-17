@@ -14,7 +14,7 @@ export default function TopBar() {
   }
 
   return (
-    <div className="flex items-center justify-between px-5 py-3 shrink-0"
+    <div className="flex items-center justify-between px-5 py-3 shrink-0 flex-wrap gap-2"
          style={{ borderBottom: '1px solid var(--border-subtle)',
                   background: 'var(--bg-surface)' }}>
 
