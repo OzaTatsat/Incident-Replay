@@ -44,7 +44,9 @@ export default function EventDetail() {
           </span>
         </div>
         <button onClick={() => setSelectedEvent(null)}
-                className="p-1 rounded hover:bg-white/10 transition-colors">
+                aria-label="Close event details"
+                title="Close"
+                className="p-1 rounded hover:bg-white/10 transition-colors focus-visible:ring-2">
           <X size={14} style={{ color: 'var(--text-secondary)' }} />
         </button>
       </div>
