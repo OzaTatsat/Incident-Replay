@@ -32,21 +32,23 @@ export default function EventDetail() {
                   maxHeight: '100%' }}>
 
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3"
+      <div className="flex items-center justify-between px-4 py-3 min-w-0"
            style={{ background: col + '18', borderBottom: `1px solid ${col}33` }}>
-        <div className="flex items-center gap-2">
-          <EventIcon type={ev.event_type} col={col} />
-          <span className="font-bold text-sm" style={{ color: col }}>
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="shrink-0">
+            <EventIcon type={ev.event_type} col={col} />
+          </div>
+          <span className="font-bold text-sm truncate" style={{ color: col }} title={ev.event_type?.replace(/_/g,' ').toUpperCase()}>
             {ev.event_type?.replace(/_/g,' ').toUpperCase()}
           </span>
-          <span className="phase-badge" style={{ background: col+'22', color: col }}>
+          <span className="phase-badge truncate max-w-[120px] shrink-0" style={{ background: col+'22', color: col }} title={ev.phase?.replace(/_/g,' ')}>
             {ev.phase?.replace(/_/g,' ')}
           </span>
         </div>
         <button onClick={() => setSelectedEvent(null)}
                 aria-label="Close event details"
                 title="Close"
-                className="p-1 rounded hover:bg-black/10 transition-colors focus-visible:ring-2">
+                className="p-1 rounded hover:bg-black/10 transition-colors focus-visible:ring-2 shrink-0 ml-2">
           <X size={14} style={{ color: 'var(--text-secondary)' }} />
         </button>
       </div>
