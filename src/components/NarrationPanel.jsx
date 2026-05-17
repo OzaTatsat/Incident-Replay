@@ -23,9 +23,9 @@ export default function NarrationPanel() {
             Narration
           </span>
         </div>
-        <span className="text-xs px-2 py-0.5 rounded mono"
-              style={{ background: 'rgba(251,191,36,.1)', color: '#fbbf24',
-                       border: '1px solid rgba(251,191,36,.2)' }}>
+        <span className="text-xs px-2 py-0.5 rounded mono font-medium"
+              style={{ background: 'rgba(212, 163, 115, 0.15)', color: '#d4a373',
+                       border: '1px solid rgba(212, 163, 115, 0.3)' }}>
           Ollama pending
         </span>
       </div>
@@ -34,8 +34,8 @@ export default function NarrationPanel() {
 
         {/* Ollama notice */}
         <div className="rounded-lg p-3 flex items-start gap-3"
-             style={{ background: 'rgba(56,189,248,.05)',
-                      border: '1px solid rgba(56,189,248,.15)' }}>
+             style={{ background: 'rgba(74, 114, 158, 0.08)',
+                      border: '1px solid rgba(74, 114, 158, 0.15)' }}>
           <Clock size={14} style={{ color: 'var(--accent)', marginTop: 1, flexShrink: 0 }} />
           <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             Ollama integration is next on the roadmap. For now, narrations use
@@ -62,7 +62,7 @@ export default function NarrationPanel() {
               className="text-xs px-2.5 py-1 rounded transition-colors font-semibold"
               style={{
                 background: generatingSummary ? 'var(--border-subtle)' : 'var(--accent)',
-                color:      generatingSummary ? 'var(--text-muted)' : '#000',
+                color:      generatingSummary ? 'var(--text-muted)' : '#ffffff',
                 cursor:     generatingSummary ? 'wait' : 'pointer',
               }}
             >

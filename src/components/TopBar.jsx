@@ -54,7 +54,7 @@ export default function TopBar() {
             <button
               onClick={resetAll}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs
-                         transition-colors hover:bg-white/5 ml-2"
+                         transition-colors hover:bg-black/5 ml-2"
               style={{ color: 'var(--text-muted)' }}
             >
               <FolderOpen size={13} /> New
@@ -74,7 +74,7 @@ function NavBtn({ active, onClick, icon, label }) {
                  font-semibold transition-colors uppercase tracking-wider"
       style={{
         background: active ? 'var(--accent)' : 'transparent',
-        color:      active ? '#000' : 'var(--text-muted)',
+        color:      active ? '#ffffff' : 'var(--text-muted)',
       }}
     >
       {icon}

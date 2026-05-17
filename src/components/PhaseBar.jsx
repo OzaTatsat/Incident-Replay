@@ -36,7 +36,7 @@ export default function PhaseBar() {
       {activePhaseFilter && (
         <button
           onClick={() => setActivePhaseFilter(null)}
-          className="text-xs px-2 py-0.5 rounded transition-colors hover:bg-white/5"
+          className="text-xs px-2 py-0.5 rounded transition-colors hover:bg-black/5"
           style={{ color: 'var(--text-muted)' }}
         >
           ✕ clear

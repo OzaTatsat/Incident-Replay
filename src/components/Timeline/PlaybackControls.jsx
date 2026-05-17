@@ -32,7 +32,7 @@ export default function PlaybackControls() {
         onClick={() => { setPlayhead(0); setIsPlaying(false) }}
         aria-label="Reset playback"
         title="Reset"
-        className="p-1.5 rounded hover:bg-white/5 transition-colors focus-visible:ring-2"
+        className="p-1.5 rounded hover:bg-black/5 transition-colors focus-visible:ring-2"
       >
         <SkipBack size={15} style={{ color: 'var(--text-secondary)' }} />
       </button>
@@ -46,15 +46,15 @@ export default function PlaybackControls() {
         aria-label={isPlaying ? "Pause playback" : "Play timeline"}
         title={isPlaying ? "Pause" : "Play"}
         disabled={!events.length}
-        className="w-9 h-9 rounded-full flex items-center justify-center transition-all focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-[#0d1117]"
+        className="w-9 h-9 rounded-full flex items-center justify-center transition-all focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-[#ffffff]"
         style={{
           background: events.length ? 'var(--accent)' : 'var(--border-subtle)',
           cursor: events.length ? 'pointer' : 'not-allowed',
         }}
       >
         {isPlaying
-          ? <Pause  size={15} fill="#000" color="#000" />
-          : <Play   size={15} fill="#000" color="#000" style={{ marginLeft: 2 }} />
+          ? <Pause  size={15} fill="#ffffff" color="#ffffff" />
+          : <Play   size={15} fill="#ffffff" color="#ffffff" style={{ marginLeft: 2 }} />
         }
       </button>
 
@@ -65,7 +65,7 @@ export default function PlaybackControls() {
         onChange={e => { setPlayhead(e.target.value / 1000); setIsPlaying(false) }}
         aria-label="Timeline scrubber"
         disabled={!events.length}
-        className="flex-1 h-1 rounded accent-sky-400 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-[#0d1117]"
+        className="flex-1 h-1 rounded focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-[#ffffff]"
         style={{ accentColor: 'var(--accent)', cursor: events.length ? 'pointer' : 'not-allowed' }}
       />
 
@@ -94,7 +94,7 @@ export default function PlaybackControls() {
               className="px-2 py-0.5 rounded text-xs mono transition-colors focus-visible:ring-2 focus-visible:ring-inset"
               style={{
                 background: playbackSpeed === s ? 'var(--accent)' : 'transparent',
-                color:      playbackSpeed === s ? '#000' : 'var(--text-muted)',
+                color:      playbackSpeed === s ? '#ffffff' : 'var(--text-muted)',
                 fontWeight: playbackSpeed === s ? 700 : 400,
               }}
             >
